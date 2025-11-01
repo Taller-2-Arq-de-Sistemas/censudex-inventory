@@ -119,7 +119,8 @@ export class ProductosModel {
             const { data: updateData, error: updateError } = await supabase
             .from('productos')
             .update({ stock_actual: newStock })
-            .eq('id', id);
+            .eq('id', id)
+            .select();
             if (updateError) {
                 return {
                     message: updateError.message,
@@ -131,7 +132,7 @@ export class ProductosModel {
                 if(messageAlert !== ''){
                     return {
                         message: 'Stock updated successfully. ' + messageAlert,
-                        data: updateData[0],
+                        data: updateData,
                         status: 200
                     }
                 }

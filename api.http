@@ -1,1 +1,9 @@
-get http://localhost:3000/api/productos/stock/1
+get http://localhost:5005/api/productos/stock/1
+
+###
+patch http://localhost:5005/api/productos/stock/update/1
+Content-Type: application/json
+
+{
+  "newStock": 0
+}

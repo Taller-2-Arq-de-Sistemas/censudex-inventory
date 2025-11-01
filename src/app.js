@@ -1,7 +1,7 @@
 import express from 'express';
 import { productoRouter } from './routes/producto.js';
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5005;
 
 
 app.use(express.json());

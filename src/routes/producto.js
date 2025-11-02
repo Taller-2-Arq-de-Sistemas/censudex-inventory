@@ -4,6 +4,6 @@ import express from "express";
 const productoRouter = express.Router();
 
 productoRouter.get("/", ProductosController.getAllProductos);
-productoRouter.get("/stock/:id", ProductosController.getStockProductId);
-productoRouter.patch("/stock/update/:id", ProductosController.updateStockProductId);
+productoRouter.get("/:id", ProductosController.getStockProductId);
+productoRouter.patch("/:id", ProductosController.updateStockProductId);
 export { productoRouter };

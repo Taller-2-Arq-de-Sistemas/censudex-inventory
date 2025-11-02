@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5005;
 
 app.use(express.json());
 
-app.use('/api/productos', productoRouter);
+app.use('/inventory', productoRouter);
 
 
 const iniciarServer = async ()=>{

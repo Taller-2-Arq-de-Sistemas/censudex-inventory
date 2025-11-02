@@ -1,10 +1,10 @@
-import { formatError } from "zod";
-import { ProductosModel } from "../model/productos.js";
+import { ProductoServices } from "../services/productoServices.js";
 import { validatorProductoId, validatorUpdateStockProducto } from "../schema/validatorProducto.js";
+import { formatError } from "zod";
 export class ProductosController {
     static async getAllProductos(req, res) {
         try{
-            const {data,status,message} = await ProductosModel.getAllProductos();
+            const {data,status,message} = await ProductoServices.getAllProducts();
             
             return res.status(status).json(status !== 200? {error: message}:{ message: message, data: data });
         }
@@ -12,6 +12,7 @@ export class ProductosController {
             return res.status(500).json({ error: error.message });
         }
     }
+
     static async getStockProductId(req, res) {
         const parsed = validatorProductoId.safeParse({ id: Number(req.params.id) });
         if (!parsed.success) {
@@ -19,7 +20,7 @@ export class ProductosController {
         }
         const { id } = parsed.data;
         try{
-            const {data,status,message} = await ProductosModel.getStockProductId(id);
+            const {data,status,message} = await ProductoServices.getProductStock(id);
             
             return res.status(status).json(status !== 200? {error: message}:{ message: message, data: data });
         }
@@ -27,6 +28,7 @@ export class ProductosController {
             return res.status(500).json({ error: error.message });
         }
     }
+
     static async updateStockProductId(req, res) {
 
         const parsedParams = validatorProductoId.safeParse({ id: Number(req.params.id) });
@@ -34,8 +36,8 @@ export class ProductosController {
         if (!parsedParams.success || !parsedBody.success) {
             return res.status(400).json({
                 error: {
-                    params: parsedParams.error?.format(),
-                    body: parsedBody.error?.format()
+                    params: parsedParams.error?.errors,
+                    body: parsedBody.error?.errors
                 }
             });
         }
@@ -44,7 +46,7 @@ export class ProductosController {
         const { newStock } = parsedBody.data;
 
         try{
-            const {data,status,message} = await ProductosModel.updateStockProductId(id, newStock);
+            const {data,status,message} = await ProductoServices.updateStockProductIdManually(id, newStock);
             return res.status(status).json(status !== 200? {error: message}:{ message: message, data: data });
         }catch(error){
             return res.status(500).json({ error: error.message });

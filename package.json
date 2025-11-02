@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch src/app.js"
+    "dev": "node --watch src/app.js",
+    "test:simulate": "node tests/simulate-order.js",
+    "test:listen": "node tests/listen-events.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +16,7 @@
   "dependencies": {
     "@faker-js/faker": "^10.1.0",
     "@supabase/supabase-js": "^2.78.0",
+    "amqplib": "^0.10.9",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

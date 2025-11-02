@@ -6,9 +6,6 @@ export const validatorProducto = z.object({
   stock_actual: z.number().int().nonnegative(),
   stock_minimo: z.number().int().nonnegative(),
   estado: z.enum(['activo', 'inactivo'])
-}).refine(data => data.stock_actual >= data.stock_minimo, {
-  message: 'El stock actual no puede ser menor al mínimo',
-  path: ['stock_actual']
 }).strict();
 
 export const validatorProductoId= z.object({

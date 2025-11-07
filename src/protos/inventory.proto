@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package inventory;
+
+service InventoryService{
+
+    rpc GetAllProducts (Empty) returns (ProductListResponse);
+    
+    rpc GetProductById (ProductIdRequest) returns (ProductResponse);
+
+    rpc UpdateStock (UpdateStockRequest) returns (ProductResponse);
+
+}
+
+message Empty{}
+
+message ProductIdRequest{
+    int32 id = 1;
+}
+message UpdateStockRequest{
+    int32 id = 1;
+    int32 newStock = 2;
+}
+
+message Product {
+  int32 id = 1;
+  string nombre = 2;
+  string categoria = 3;
+  int32 stock_actual = 4;
+  int32 stock_minimo = 5;
+  string estado = 6;
+}
+message ProductResponse {
+  bool success = 1;
+  string message = 2;
+  Product data = 3;
+}
+message ProductListResponse {
+  bool success = 1;
+  string message = 2;
+  repeated Product data = 3;
+}
+

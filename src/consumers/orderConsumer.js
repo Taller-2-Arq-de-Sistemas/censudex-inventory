@@ -5,6 +5,7 @@ import { ProductoServices } from "../services/productoServices.js";
 export const startOrdenConsumer= async() =>{
     try{
         const channel = getChannel();
+        
         await channel.consume(
             queue.ORDER_CREATER,
             async (msg) =>{

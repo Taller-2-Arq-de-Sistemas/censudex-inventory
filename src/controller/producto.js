@@ -1,6 +1,6 @@
 import { ProductoServices } from "../services/productoServices.js";
 import { validatorProductoId, validatorUpdateStockProducto } from "../schema/validatorProducto.js";
-import { formatError } from "zod";
+
 export class ProductosController {
     static async getAllProductos(req, res) {
         try{
@@ -32,14 +32,28 @@ export class ProductosController {
     static async updateStockProductId(req, res) {
 
         const parsedParams = validatorProductoId.safeParse({ id: Number(req.params.id) });
-        const parsedBody = validatorUpdateStockProducto.safeParse({ ...req.body });
-        if (!parsedParams.success || !parsedBody.success) {
+        const parsedBody = validatorUpdateStockProducto.safeParse( req.body );
+        if (!parsedParams.success ) {
             return res.status(400).json({
                 error: {
-                    params: parsedParams.error?.errors,
-                    body: parsedBody.error?.errors
+                    message: "Error en los parametros",
+                    params: parsedParams.error.issues.map(err =>({
+                        field: err.path.join('.'),
+                        message: err.message
+                    }))
                 }
             });
+        }
+        if(!parsedBody.success){
+            return res.status(400).json({
+                error: {
+                    message: "Error en el cuerpo",
+                    params: parsedBody.error.issues.map(err =>({
+                        field: err.path.join('.'),
+                        message: err.message
+                    }))
+                }
+            })
         }
     
         const { id } = parsedParams.data;

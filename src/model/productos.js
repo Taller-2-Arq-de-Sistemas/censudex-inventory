@@ -132,7 +132,7 @@ export class ProductosModel {
                 if(messageAlert !== ''){
                     return {
                         message: 'Stock updated successfully. ' + messageAlert,
-                        data: updateData,
+                        data: updateData[0],
                         status: 200
                     }
                 }

@@ -207,7 +207,18 @@ export class ProductoServices {
             };
         }
     }
-
+    static async getProductById(id){
+        try{
+            return await ProductosModel.getStockProductId(id)
+        }
+        catch(error){
+            return{
+                success: false,
+                message: error.message,
+                status: 500
+            }
+        }
+    }
     
     static async getProductStock(productId) {
         try {

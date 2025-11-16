@@ -5,7 +5,7 @@ import { startGrpcServer } from './grpc/server.js';
 
 dotenv.config();
 
-const GRPC_PORT =process.env.GRPC_PORT ;
+const GRPC_PORT =process.env.INVENTORY_SERVICE_PORT ;
 
 
 

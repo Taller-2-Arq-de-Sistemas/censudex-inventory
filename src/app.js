@@ -5,7 +5,7 @@ import { startGrpcServer } from './grpc/server.js';
 
 dotenv.config();
 
-const GRPC_PORT =process.env.GRPC_PORT || 5005;
+const GRPC_PORT =process.env.GRPC_PORT ;
 
 
 

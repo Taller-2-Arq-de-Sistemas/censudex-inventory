@@ -16,7 +16,7 @@ export class ProductosModel {
         try{
             const { data, error } = await supabase
             .from('productos')
-            .select('nombre,categoria, stock_actual,stock_minimo, estado');
+            .select('id,nombre,categoria, stock_actual,stock_minimo, estado');
             if (error) {
                 return {
                     message: error.message,
@@ -24,6 +24,7 @@ export class ProductosModel {
                     status: 500
                 }
             }
+            
             return {
                 message: 'Productos retrieved successfully',
                 data: data,
@@ -47,7 +48,7 @@ export class ProductosModel {
         try{
             let { data, error } = await supabase
             .from('productos')
-            .select('stock_actual, stock_minimo, nombre')
+            .select('id,stock_actual, stock_minimo, nombre, estado')
             .eq('id', id);
             if (error) {
                 return {
@@ -89,7 +90,7 @@ export class ProductosModel {
         try{
             let { data, error } = await supabase
             .from('productos')
-            .select('stock_actual,stock_minimo')
+            .select('id,stock_actual,stock_minimo,estado')
             .eq('id', id);
             if (error) {
                 return {

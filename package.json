@@ -17,11 +17,12 @@
     "@faker-js/faker": "^10.1.0",
     "@grpc/grpc-js": "^1.14.0",
     "@grpc/proto-loader": "^0.8.0",
+    "@sendgrid/mail": "^8.1.6",
     "@supabase/supabase-js": "^2.78.0",
     "amqplib": "^0.10.9",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0",
+    "grpc-reflection-js": "^0.3.0",
     "zod": "^4.1.12"
   }
 }

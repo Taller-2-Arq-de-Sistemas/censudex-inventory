@@ -4,6 +4,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { ProductoServices } from '../services/productoServices.js';
 
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -113,18 +114,21 @@ const inventoryServices ={
 }
 export function startGrpcServer(port = 50051) {
   const server = new grpc.Server();
-  
+
   server.addService(inventoryProto.InventoryService.service, inventoryServices);
+    
+
   
   server.bindAsync(
     `0.0.0.0:${port}`,
     grpc.ServerCredentials.createInsecure(),
     (error, port) => {
       if (error) {
-        console.error('❌ Error iniciando servidor gRPC:', error);
+        console.error('Error iniciando servidor gRPC:', error);
         return;
       }
-      console.log(`🚀 Servidor gRPC corriendo en puerto ${port}`);
+      console.log(`Servidor gRPC corriendo en puerto ${port}`);
+      
     }
   );
   

@@ -1,24 +1,22 @@
-import express from 'express';
 import dotenv from 'dotenv';
 import { connectionRabbitMQ, closeConnection } from './config/rabbitmq.js';
 import { startOrdenConsumer } from './consumers/orderConsumer.js';
 import { startGrpcServer } from './grpc/server.js';
 
 dotenv.config();
-const app = express();
+
 const GRPC_PORT =process.env.GRPC_PORT || 5005;
 
 
-app.use(express.json());
 
 
 
 const iniciarServer = async ()=>{
     try{
+        
         await connectionRabbitMQ();
 
         await startOrdenConsumer();
-        
         startGrpcServer(GRPC_PORT)
     }
     catch(error){

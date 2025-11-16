@@ -16,7 +16,7 @@ export const startOrdenConsumer= async() =>{
                         const result =await ProductoServices.processOrdenStock(orderData);
 
                         if(result.success){
-                            check.ack(msg);
+                            channel.ack(msg);
                         }
                         else{
                             channel.nack(msg,false,false)

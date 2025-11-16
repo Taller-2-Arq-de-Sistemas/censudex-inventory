@@ -7,7 +7,7 @@ export class ProductoServices {
      * Procesar orden y validar/descontar stock
      */
     static async processOrdenStock(orderData) {
-        const { orderId, userId, items } = orderData;
+        const { orderId, items } = orderData;
         
         try {
 
@@ -17,26 +17,26 @@ export class ProductoServices {
                 if (status === 404) {
                     await this.publicOrdenFailed({
                         orderId,
-                        userId,
                         productId: item.productId,
                         productName: null,
                         reason: `Producto ${item.productId} no encontrado`,
                         requested: 0,
-                        available: 0,
+                        available: 0
                     });
+
                     return { success: false, reason: 'Producto no encontrado' };
                 }
                 
                 if (status === 500) {
                     await this.publicOrdenFailed({
-                        orderId,
-                        userId,
+                        orderId,d,
                         productId: item.productId,
                         productName: null,
                         reason: 'Error al consultar el stock',
                         requested: 0,
-                        available: 0,
+                        available: 0
                     });
+                    
                     return { success: false, reason: 'Error al consultar el stock' };
                 }
 
@@ -44,28 +44,27 @@ export class ProductoServices {
                 
                 if (producto.stock_actual < item.quantity) {
                     await this.publicOrdenFailed({
-                        orderId,
-                        userId,
+                        orderId,d,
                         productId: item.productId,
                         productName: producto.nombre,
                         reason: 'Stock insuficiente',
                         requested: item.quantity,
                         available: producto.stock_actual,
                     });
+
                     return { success: false, reason: `Stock insuficiente para ${producto.nombre}` };
                 }
             }
 
             for (const item of items) {
                 const result = await ProductosModel.getStockProductId(item.productId);
-                const producto = result.data;  // ✅ CORREGIDO
+                const producto = result.data;  
                 
                 const newStock = producto.stock_actual - item.quantity;
 
                 if (newStock < 0) {
                     await this.publicOrdenFailed({
-                        orderId,
-                        userId,
+                        orderId,d,
                         productId: item.productId,
                         productName: producto.nombre,
                         reason: 'Stock resultante negativo',
@@ -79,14 +78,14 @@ export class ProductoServices {
                 
                 if (updateResult.status !== 200) {
                     await this.publicOrdenFailed({
-                        orderId,
-                        userId,
+                        orderId,d,
                         productId: item.productId,
                         productName: producto.nombre,
                         reason: 'Error al actualizar stock',
                         requested: 0,
                         available: 0,
                     });
+                    
                     return { success: false, reason: 'Error al actualizar stock' };
                 }
 
@@ -98,21 +97,20 @@ export class ProductoServices {
                         stockActual: newStock, 
                         stockMinimo: producto.stock_minimo
                     });
+
                 }
             }
-
+            
             return { success: true };
             
         } catch (error) {
             
             await publicMsg(exchanges.INVENTORY, 'order.failed.stock', {
                 orderId,
-                userId,
                 reason: "Error interno del sistema de inventario",
-                error: error.message,
-                timestamp: new Date().toISOString()
+                error: error.message
             });
-            
+
             return { success: false, reason: 'Error interno' };
         }
     }
@@ -198,6 +196,7 @@ export class ProductoServices {
     
     static async getAllProducts() {
         try {
+            console.log(2)
             return await ProductosModel.getAllProductos();
         } catch (error) {
             return {
